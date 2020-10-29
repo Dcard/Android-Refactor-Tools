@@ -1,7 +1,8 @@
-package com.hiking.art.program.main
+package com.hiking.art.programs.main
 
 import com.hiking.art.base.Program
-import com.hiking.art.program.readstrings.ReadStrings
+import com.hiking.art.modules.readInt
+import com.hiking.art.programs.readstrings.ReadStrings
 import kotlin.system.exitProcess
 
 class MainMenu : Program("Main Menu") {
@@ -20,24 +21,10 @@ class MainMenu : Program("Main Menu") {
             options.forEachIndexed { index, option ->
                 println("${index + 1}) ${option.title}")
             }
-            val choice = getIntInput { (1..options.size).contains(it) } - 1
+            val choice = readInt(1..options.size) - 1
             when (options[choice]) {
                 Option.ReadStrings -> ReadStrings().start()
                 Option.Exit -> exitProcess(0)
-            }
-        }
-    }
-
-    private fun getIntInput(
-        validation: ((Int) -> Boolean)? = null
-    ): Int {
-        while (true) {
-            print("> ")
-            val input = readLine()?.toIntOrNull()
-            if (input != null && validation?.invoke(input) != false) {
-                return input
-            } else {
-                println("Invalid input.")
             }
         }
     }

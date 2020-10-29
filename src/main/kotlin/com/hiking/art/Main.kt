@@ -1,6 +1,6 @@
 package com.hiking.art
 
-import com.hiking.art.program.main.MainMenu
+import com.hiking.art.programs.main.MainMenu
 
 fun main() {
     MainMenu().start()

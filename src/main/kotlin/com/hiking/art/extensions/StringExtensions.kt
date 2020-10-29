@@ -1,4 +1,4 @@
-package com.hiking.art.extension
+package com.hiking.art.extensions
 
 import kotlin.math.ceil
 import kotlin.math.floor
