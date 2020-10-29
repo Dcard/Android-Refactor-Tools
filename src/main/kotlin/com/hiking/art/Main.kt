@@ -1,7 +1,9 @@
 package com.hiking.art
 
-import com.hiking.art.programs.main.MainMenu
+import com.hiking.art.programs.main.MainMenuProgram
 
 fun main() {
-    MainMenu().start()
+    while (true) {
+        MainMenuProgram().start()
+    }
 }

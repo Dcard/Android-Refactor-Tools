@@ -4,9 +4,23 @@ fun printlnErr(message: Any?) {
     System.err.println(message)
 }
 
-fun readInt(range: IntRange) = readInt { range.contains(it) }
+fun promptInput(
+    validation: ((String?) -> Boolean)? = null
+): String? {
+    while (true) {
+        print("> ")
+        val input = readLine()
+        if (validation?.invoke(input) != false) {
+            return input
+        } else {
+            println("Invalid input.")
+        }
+    }
+}
 
-fun readInt(
+fun promptIntInput(range: IntRange) = promptIntInput { range.contains(it) }
+
+fun promptIntInput(
     validation: ((Int) -> Boolean)? = null
 ): Int {
     while (true) {
@@ -16,6 +30,17 @@ fun readInt(
             return input
         } else {
             println("Invalid input.")
+        }
+    }
+}
+
+fun promptBooleanInput(): Boolean {
+    while (true) {
+        print("(y/n)> ")
+        when (readLine()) {
+            "Y", "y", "true", "1" -> return true
+            "N", "n", "false", "0" -> return false
+            else -> println("Invalid input.")
         }
     }
 }
