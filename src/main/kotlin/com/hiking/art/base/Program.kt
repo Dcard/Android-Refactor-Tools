@@ -3,8 +3,7 @@ package com.hiking.art.base
 import com.hiking.art.extensions.makeDivider
 
 abstract class Program(
-    val title: String,
-    val optionName: String? = null
+    val title: String
 ) {
     companion object {
         private var firstTitle = true

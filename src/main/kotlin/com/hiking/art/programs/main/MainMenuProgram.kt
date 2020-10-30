@@ -10,33 +10,39 @@ import kotlin.system.exitProcess
 class MainMenuProgram : Program(
     title = "Main Menu"
 ) {
-    companion object {
-        private const val QUIT_OPTION = "Q"
-    }
+    private data class Option(
+        val name: String,
+        val action: () -> Unit
+    )
 
-    private val programs = listOf(
-        GuidelinesCheckProgram(),
-        OpenAppFileInDesktopProgram(AppFiles.refactorRulesFile),
+    private val options = mapOf(
+        "1" to Option("Check string guidelines.") {
+            GuidelinesCheckProgram().start()
+        },
+        "2" to AppFiles.refactorRulesFile.let { file ->
+            Option("Open ${file.name} in desktop.") {
+                OpenAppFileInDesktopProgram(file).start()
+            }
+        },
+        "Q" to Option("Quit program.") {
+            println("Good bye!")
+            exitProcess(0)
+        }
     )
 
     override fun onStart() {
         println("Select a function: ")
-        programs.forEachIndexed { index, option ->
-            println("${index + 1}) ${option.optionName}")
+        options.forEach { (key, value) ->
+            println("$key) ${value.name}")
         }
-        println("$QUIT_OPTION) Quit program")
-        val input = promptInput { input ->
-            when {
-                input == null -> false
-                input.toUpperCase() == QUIT_OPTION -> true
-                else -> input.toIntOrNull().let { it != null && (1..programs.size).contains(it) }
+        while (true) {
+            val input = promptInput()
+            val option = input?.toUpperCase()?.let { options[it] }
+            if (option != null) {
+                option.action()
+                break
             }
-        }!!
-        if (input.toUpperCase() == QUIT_OPTION) {
-            println("Good bye!")
-            exitProcess(0)
-        } else {
-            programs[input.toInt() - 1].start()
+            println("Invalid input.")
         }
     }
 }

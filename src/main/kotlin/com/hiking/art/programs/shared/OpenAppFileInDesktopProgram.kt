@@ -8,8 +8,7 @@ import java.io.File
 class OpenAppFileInDesktopProgram(
     private val file: File
 ) : Program(
-    title = "Open File",
-    optionName = "Open ${file.name} in desktop."
+    title = "Open File"
 ) {
 
     override fun onStart() {

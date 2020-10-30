@@ -12,8 +12,7 @@ import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
 class GuidelinesCheckProgram : Program(
-    title = "Check String Guidelines",
-    optionName = "Check string guidelines."
+    title = "Check String Guidelines"
 ) {
     override fun onStart() {
         val projectRoot = AppFiles.requestProjectRoot() ?: return
