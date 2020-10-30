@@ -10,7 +10,6 @@ class OpenAppFileInDesktopProgram(
 ) : Program(
     title = "Open File"
 ) {
-
     override fun onStart() {
         val desktop = try {
             Desktop.getDesktop()

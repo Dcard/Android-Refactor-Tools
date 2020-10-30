@@ -1,6 +1,7 @@
-package com.hiking.art.modules
+package com.hiking.art.modules.files
 
 import com.hiking.art.modules.configs.ConfigsHelper
+import com.hiking.art.modules.printlnErr
 import java.io.File
 
 object AppFiles {

@@ -1,5 +1,6 @@
 package com.hiking.art.extensions
 
+import com.hiking.art.modules.strings.StringResHelper
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -14,3 +15,5 @@ fun String.makeDivider(): String {
         "$start $this $end"
     }
 }
+
+fun String.normalizeStringResourceName() = StringResHelper.normalizeName(this)

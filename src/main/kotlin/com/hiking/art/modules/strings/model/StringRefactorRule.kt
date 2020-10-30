@@ -1,4 +1,4 @@
-package com.hiking.art.modules.refactor
+package com.hiking.art.modules.strings.model
 
 import kotlinx.serialization.Serializable
 

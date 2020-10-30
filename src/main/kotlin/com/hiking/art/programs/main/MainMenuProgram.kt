@@ -1,9 +1,10 @@
 package com.hiking.art.programs.main
 
 import com.hiking.art.base.Program
-import com.hiking.art.modules.AppFiles
+import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.promptInput
 import com.hiking.art.programs.guidelines.GuidelinesCheckProgram
+import com.hiking.art.programs.resource.unused.UnusedResourcesProgram
 import com.hiking.art.programs.shared.OpenAppFileInDesktopProgram
 import kotlin.system.exitProcess
 
@@ -16,10 +17,13 @@ class MainMenuProgram : Program(
     )
 
     private val options = mapOf(
-        "1" to Option("Check string guidelines.") {
+        "1" to Option("Find unused strings.") {
+            UnusedResourcesProgram().start()
+        },
+        "2" to Option("Check string guidelines.") {
             GuidelinesCheckProgram().start()
         },
-        "2" to AppFiles.refactorRulesFile.let { file ->
+        "3" to AppFiles.refactorRulesFile.let { file ->
             Option("Open ${file.name} in desktop.") {
                 OpenAppFileInDesktopProgram(file).start()
             }
