@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class StringRefactorRule(
     val fromName: String,
     val toName: String,
-    val description: String? = null
+    val values: List<String>
 )
