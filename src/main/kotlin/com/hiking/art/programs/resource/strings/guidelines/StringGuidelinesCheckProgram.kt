@@ -1,17 +1,18 @@
-package com.hiking.art.programs.guidelines
+package com.hiking.art.programs.resource.strings.guidelines
 
 import com.hiking.art.base.Program
 import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.files.ProjectFiles
 import com.hiking.art.modules.promptBooleanInput
-import com.hiking.art.modules.strings.StringNameGuidelines
-import com.hiking.art.modules.strings.StringResHelper
+import com.hiking.art.modules.strings.StringNameGuidelinesHelper
+import com.hiking.art.modules.strings.StringFileHelper
 import com.hiking.art.modules.strings.model.StringRefactorRule
-import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import java.io.File
 
-class GuidelinesCheckProgram : Program(
+class StringGuidelinesCheckProgram : Program(
     title = "Check String Guidelines"
 ) {
     override fun onStart() {
@@ -25,8 +26,8 @@ class GuidelinesCheckProgram : Program(
             println("No string files found.")
             return
         }
-        val allStrings = StringResHelper.readStringsFromFiles(stringFiles)
-        val illegalStrings = allStrings.filter { !StringNameGuidelines.isLegal(it.key) }
+        val allStrings = StringFileHelper.readStringsFromFiles(stringFiles)
+        val illegalStrings = allStrings.filter { !StringNameGuidelinesHelper.isLegal(it.key) }
         if (illegalStrings.isEmpty()) {
             println("No illegal strings found.")
             return
@@ -38,19 +39,18 @@ class GuidelinesCheckProgram : Program(
         }
         println()
 
-        val refactorRulesFile = AppFiles.refactorRulesFile
+        val refactorRulesFile = AppFiles.stringRenamingRulesFile
         val actionName = if (refactorRulesFile.exists()) "Overwrite" else "Write"
         println("$actionName ${illegalStrings.size} result(s) into ${refactorRulesFile.name}?")
         if (promptBooleanInput()) {
             val refactorRules = illegalStrings.map {
-                StringRefactorRule(
-                    fromName = it.key,
+                it.key to StringRefactorRule(
                     toName = it.key,
                     values = it.value
                 )
-            }
+            }.toMap()
             Json { prettyPrint = true }.encodeToString(
-                ListSerializer(StringRefactorRule.serializer()), refactorRules
+                MapSerializer(String.serializer(), StringRefactorRule.serializer()), refactorRules
             ).let {
                 refactorRulesFile.writeText(it)
             }

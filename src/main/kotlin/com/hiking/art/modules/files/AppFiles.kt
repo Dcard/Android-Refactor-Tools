@@ -6,7 +6,8 @@ import java.io.File
 
 object AppFiles {
 
-    val refactorRulesFile = File("refactorRules.json")
+    private val appFilesRoot = File("appFiles").apply { mkdirs() }
+    val stringRenamingRulesFile = File(appFilesRoot, "stringRenamingRules.json")
 
     private var projectRoot: File? = null
 

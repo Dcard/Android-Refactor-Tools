@@ -1,62 +1,62 @@
 package modules.strings
 
-import com.hiking.art.modules.strings.StringNameGuidelines
+import com.hiking.art.modules.strings.StringNameGuidelinesHelper
 import org.junit.Assert
 import org.junit.Test
 
-class StringNameGuidelinesTest {
+class StringNameGuidelinesHelperTest {
 
     @Test
     fun fixSeparator_fix() {
-        val result = StringNameGuidelines.autoFix("foo.bar_bar_title")
+        val result = StringNameGuidelinesHelper.autoFix("foo.bar_bar_title")
         Assert.assertEquals("foo.bar_bar.title", result)
     }
 
     @Test
     fun fixSeparator_fixFormat() {
-        val result = StringNameGuidelines.autoFix("foo.bar_bar_message_format")
+        val result = StringNameGuidelinesHelper.autoFix("foo.bar_bar_message_format")
         Assert.assertEquals("foo.bar_bar.message_format", result)
     }
 
     @Test
     fun fixSeparator_fixNumber() {
-        val result = StringNameGuidelines.autoFix("ec.add_711_action")
+        val result = StringNameGuidelinesHelper.autoFix("ec.add_711_action")
         Assert.assertEquals("ec.add_711.action", result)
     }
 
     @Test
     fun fixSeparator_fixMainUnderline() {
-        val result = StringNameGuidelines.autoFix("foo_title")
+        val result = StringNameGuidelinesHelper.autoFix("foo_title")
         Assert.assertEquals("foo.main.title", result)
     }
 
     @Test
     fun fixSeparator_fixMainDot() {
-        val result = StringNameGuidelines.autoFix("foo.title")
+        val result = StringNameGuidelinesHelper.autoFix("foo.title")
         Assert.assertEquals("foo.main.title", result)
     }
 
     @Test
     fun fixSeparator_alreadyLegal() {
-        val result = StringNameGuidelines.autoFix("foo.bar_bar.title")
+        val result = StringNameGuidelinesHelper.autoFix("foo.bar_bar.title")
         Assert.assertNull(result)
     }
 
     @Test
     fun fixSeparator_nonFixableIllegalSuffixUnderline() {
-        val result = StringNameGuidelines.autoFix("foo.bar_bar_baz")
+        val result = StringNameGuidelinesHelper.autoFix("foo.bar_bar_baz")
         Assert.assertNull(result)
     }
 
     @Test
     fun fixSeparator_nonFixableIllegalSuffixDot() {
-        val result = StringNameGuidelines.autoFix("foo.bar_bar.baz")
+        val result = StringNameGuidelinesHelper.autoFix("foo.bar_bar.baz")
         Assert.assertNull(result)
     }
 
     @Test
     fun fixSeparator_nonFixableIllegalSuffixMainDot() {
-        val result = StringNameGuidelines.autoFix("foo.bar")
+        val result = StringNameGuidelinesHelper.autoFix("foo.bar")
         Assert.assertNull(result)
     }
 }

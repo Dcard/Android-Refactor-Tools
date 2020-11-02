@@ -1,6 +1,6 @@
 package com.hiking.art.modules.strings
 
-object StringNameGuidelines {
+object StringNameGuidelinesHelper {
 
     private const val FORMAT_SUFFIX = "_format"
     private const val SEPARATOR = '.'

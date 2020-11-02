@@ -4,7 +4,7 @@ import com.hiking.art.base.Program
 import com.hiking.art.extensions.normalizeStringResourceName
 import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.files.ProjectFiles
-import com.hiking.art.modules.strings.StringResHelper
+import com.hiking.art.modules.strings.StringFileHelper
 import com.hiking.art.programs.resource.ResourceType
 import java.io.File
 
@@ -17,7 +17,7 @@ class UnusedResourcesProgram : Program(
     }
 
     private fun findUnusedStrings(projectRoot: File) {
-        val strings = StringResHelper.readStringsFromFiles(
+        val strings = StringFileHelper.readStringsFromFiles(
             stringFiles = ProjectFiles.findStringFiles(projectRoot)
         ).mapKeys { it.key.normalizeStringResourceName() }.toMutableMap()
         ProjectFiles.findCodeFiles(projectRoot).forEach { codeFile ->

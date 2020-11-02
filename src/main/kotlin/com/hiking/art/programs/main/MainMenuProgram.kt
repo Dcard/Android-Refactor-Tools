@@ -3,8 +3,9 @@ package com.hiking.art.programs.main
 import com.hiking.art.base.Program
 import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.promptInput
-import com.hiking.art.programs.guidelines.GuidelinesCheckProgram
-import com.hiking.art.programs.guidelines.GuidelinesFixProgram
+import com.hiking.art.programs.resource.strings.guidelines.StringGuidelinesAutoFixProgram
+import com.hiking.art.programs.resource.strings.guidelines.StringGuidelinesCheckProgram
+import com.hiking.art.programs.resource.strings.rename.RuleBasedStringRenameProgram
 import com.hiking.art.programs.resource.unused.UnusedResourcesProgram
 import com.hiking.art.programs.shared.OpenAppFileInDesktopProgram
 import kotlin.system.exitProcess
@@ -21,15 +22,20 @@ class MainMenuProgram : Program(
         "1" to Option("Find unused strings.") {
             UnusedResourcesProgram().start()
         },
-        "2" to Option("Check string name guidelines.") {
-            GuidelinesCheckProgram().start()
+        "2" to Option("Apply string name guidelines auto-fix.") {
+            StringGuidelinesAutoFixProgram().start()
         },
-        "3" to Option("Apply string name auto-fix.") {
-            GuidelinesFixProgram().start()
+        "3" to Option("Check string name guidelines.") {
+            StringGuidelinesCheckProgram().start()
         },
-        "4" to AppFiles.refactorRulesFile.let { file ->
+        "4" to AppFiles.stringRenamingRulesFile.let { file ->
             Option("Open ${file.name} in desktop.") {
                 OpenAppFileInDesktopProgram(file).start()
+            }
+        },
+        "5" to AppFiles.stringRenamingRulesFile.let { file ->
+            Option("Rename strings with ${file.name}.") {
+                RuleBasedStringRenameProgram(file).start()
             }
         },
         "Q" to Option("Quit program.") {

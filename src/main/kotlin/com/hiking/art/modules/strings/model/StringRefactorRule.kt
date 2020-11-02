@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class StringRefactorRule(
-    val fromName: String,
     val toName: String,
     val values: List<String>
 )

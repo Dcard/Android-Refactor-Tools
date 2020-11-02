@@ -1,6 +1,6 @@
 # Application
 configs.json
-refactorRules.json
+appFiles/
 
 # Java class files
 *.class
