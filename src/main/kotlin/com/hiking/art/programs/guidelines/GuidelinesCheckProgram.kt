@@ -32,15 +32,15 @@ class GuidelinesCheckProgram : Program(
             return
         }
 
-        println("Found ${illegalStrings.size} illegal strings:")
-        illegalStrings.forEach { (key, value) ->
-            println("- $key / ${value.joinToString(", ")}")
+        println("Found ${illegalStrings.size} illegal string(s):")
+        illegalStrings.forEach { (name, value) ->
+            println("- $name / ${value.joinToString(", ")}")
         }
         println()
 
         val refactorRulesFile = AppFiles.refactorRulesFile
         val actionName = if (refactorRulesFile.exists()) "Overwrite" else "Write"
-        println("$actionName these results into ${refactorRulesFile.name}?")
+        println("$actionName ${illegalStrings.size} result(s) into ${refactorRulesFile.name}?")
         if (promptBooleanInput()) {
             val refactorRules = illegalStrings.map {
                 StringRefactorRule(

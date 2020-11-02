@@ -5,18 +5,12 @@ import com.hiking.art.extensions.normalizeStringResourceName
 import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.files.ProjectFiles
 import com.hiking.art.modules.strings.StringResHelper
+import com.hiking.art.programs.resource.ResourceType
 import java.io.File
 
 class UnusedResourcesProgram : Program(
     title = "Find Unused Resources"
 ) {
-    sealed class ResourceType(
-        val usageString: String
-    ) {
-        object StringRes : ResourceType("string")
-        object DrawableRes : ResourceType("drawable")
-    }
-
     override fun onStart() {
         val projectRoot = AppFiles.requestProjectRoot() ?: return
         findUnusedStrings(projectRoot)
@@ -38,9 +32,9 @@ class UnusedResourcesProgram : Program(
                 println("Excluded ${foundUsages.size} in ${codeFile.name}, ${strings.size} remains.")
             }
         }
-        ProjectFiles.findXmlFiles(projectRoot).forEach { resFile ->
+        ProjectFiles.findXmlFiles(projectRoot).forEach { xmlFile ->
             val foundUsages = findResourceUsagesInXmlFile(
-                xmlFile = resFile,
+                xmlFile = xmlFile,
                 type = ResourceType.StringRes
             ).map {
                 it.normalizeStringResourceName()
@@ -49,7 +43,7 @@ class UnusedResourcesProgram : Program(
             }
             if (foundUsages.isNotEmpty()) {
                 foundUsages.forEach { strings.remove(it) }
-                println("Excluded ${foundUsages.size} in ${resFile.name}, ${strings.size} remains.")
+                println("Excluded ${foundUsages.size} in ${xmlFile.name}, ${strings.size} remains.")
             }
         }
         println()
@@ -67,12 +61,12 @@ class UnusedResourcesProgram : Program(
     private fun findResourceUsagesInCodeFile(
         codeFile: File,
         type: ResourceType
-    ): List<String> = "R\\s*\\.\\s*${type.usageString}\\s*\\.\\s*([a-z0-9_]+)".toRegex()
-        .findAll(codeFile.readText()).map { it.groups[1]!!.value }.toList()
+    ): List<String> = type.codeUsageRegex.findAll(codeFile.readText())
+        .map { it.groups[1]!!.value }.toList()
 
     private fun findResourceUsagesInXmlFile(
         xmlFile: File,
         type: ResourceType
-    ): List<String> = "@${type.usageString}/([a-z0-9_.]+)".toRegex()
-        .findAll(xmlFile.readText()).map { it.groups[1]!!.value }.toList()
+    ): List<String> = type.xmlUsageRegex.findAll(xmlFile.readText())
+        .map { it.groups[1]!!.value }.toList()
 }
