@@ -22,10 +22,10 @@ class MainMenuProgram : Program(
         "1" to Option("Find unused strings.") {
             UnusedResourcesProgram().start()
         },
-        "2" to Option("Apply string name guidelines auto-fix.") {
+        "2" to Option("Apply string name auto-fix based on guidelines.") {
             StringGuidelinesAutoFixProgram().start()
         },
-        "3" to Option("Check string name guidelines.") {
+        "3" to Option("Find string names which do not match guidelines.") {
             StringGuidelinesCheckProgram().start()
         },
         "4" to AppFiles.stringRenamingRulesFile.let { file ->
