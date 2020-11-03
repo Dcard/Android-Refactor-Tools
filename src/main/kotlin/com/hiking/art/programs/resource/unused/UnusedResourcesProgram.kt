@@ -5,6 +5,7 @@ import com.hiking.art.extensions.normalizeStringResourceName
 import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.files.ProjectFiles
 import com.hiking.art.modules.strings.StringFileHelper
+import com.hiking.art.modules.strings.model.StringResource
 import com.hiking.art.programs.resource.ResourceType
 import java.io.File
 
@@ -19,7 +20,12 @@ class UnusedResourcesProgram : Program(
     private fun findUnusedStrings(projectRoot: File) {
         val strings = StringFileHelper.readStringsFromFiles(
             stringFiles = ProjectFiles.findStringFiles(projectRoot)
-        ).mapKeys { it.key.normalizeStringResourceName() }.toMutableMap()
+        ).map {
+            it.key.normalizeStringResourceName() to StringResource(
+                name = it.key,
+                values = it.value
+            )
+        }.toMap().toMutableMap()
         ProjectFiles.findCodeFiles(projectRoot).forEach { codeFile ->
             val foundUsages = findResourceUsagesInCodeFile(
                 codeFile = codeFile,
@@ -52,8 +58,8 @@ class UnusedResourcesProgram : Program(
             println("No unused strings found:")
         } else {
             println("${strings.size} unused string(s) found:")
-            strings.forEach { (key, value) ->
-                println("- $key / ${value.joinToString(", ")}")
+            strings.values.forEach { res ->
+                println("- ${res.name} / ${res.values.joinToString(", ")}")
             }
         }
     }
