@@ -15,11 +15,13 @@ object StringNameGuidelinesHelper {
         "status",
         "description",
         "arg",
+        "pattern"
     )
 
-    fun isLegal(name: String) = legalKeywords.map { SEPARATOR + it }.any {
-        name.endsWith(it) || name.endsWith(it + FORMAT_SUFFIX)
-    }
+    fun isLegal(name: String) = name.count { it == SEPARATOR } == 2 &&
+        legalKeywords.map { SEPARATOR + it }.any {
+            name.endsWith(it) || name.endsWith(it + FORMAT_SUFFIX)
+        }
 
     fun autoFix(name: String): String? {
         val fixableSuffix = run {
