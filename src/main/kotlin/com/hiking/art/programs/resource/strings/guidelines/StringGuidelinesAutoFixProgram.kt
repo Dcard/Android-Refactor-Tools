@@ -10,7 +10,7 @@ import com.hiking.art.programs.resource.strings.StringRenameProgram
 import java.io.File
 
 class StringGuidelinesAutoFixProgram : Program(
-    title = "String Guidelines Auto-Fix"
+        title = "String Guidelines Auto-Fix"
 ) {
     override fun onStart() {
         val projectRoot = AppFiles.requestProjectRoot() ?: return
@@ -24,7 +24,7 @@ class StringGuidelinesAutoFixProgram : Program(
             return
         }
         val allStrings = StringFileHelper.readStringsFromFiles(stringFiles)
-        val illegalStrings = allStrings.filter { !StringNameGuidelinesHelper.isLegal(it.key) }
+        val illegalStrings = allStrings.filter { !StringNameGuidelinesHelper.isLegal(it.key, it.value) }
         if (illegalStrings.isEmpty()) {
             println("No illegal strings found.")
             return
@@ -43,8 +43,8 @@ class StringGuidelinesAutoFixProgram : Program(
             println("Apply ${renameMap.size} fix(es)?")
             if (promptBooleanInput()) {
                 StringRenameProgram(
-                    projectRoot = projectRoot,
-                    renameMap = renameMap
+                        projectRoot = projectRoot,
+                        renameMap = renameMap
                 ).start()
             }
         }

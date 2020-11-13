@@ -33,9 +33,11 @@ object ProjectFiles {
     }
 
     private fun findSrcFolders(
-        projectRoot: File
-    ): List<File> = projectRoot.listFiles { file -> file.isDirectory }!!.mapNotNull { dir ->
-        File(dir, "src").let { if (it.isDirectory) it else null }
+        dir: File
+    ): List<File> {
+        val srcFolder = File(dir, "src")
+        return if (srcFolder.isDirectory) listOf(srcFolder)
+        else dir.listFiles { file -> file.isDirectory }!!.flatMap { findSrcFolders(it) }
     }
 
     private fun findCodeFolders(

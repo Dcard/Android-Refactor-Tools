@@ -4,8 +4,8 @@ import com.hiking.art.base.Program
 import com.hiking.art.modules.files.AppFiles
 import com.hiking.art.modules.files.ProjectFiles
 import com.hiking.art.modules.promptBooleanInput
-import com.hiking.art.modules.strings.StringNameGuidelinesHelper
 import com.hiking.art.modules.strings.StringFileHelper
+import com.hiking.art.modules.strings.StringNameGuidelinesHelper
 import com.hiking.art.modules.strings.model.StringRefactorRule
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
@@ -27,7 +27,7 @@ class StringGuidelinesCheckProgram : Program(
             return
         }
         val allStrings = StringFileHelper.readStringsFromFiles(stringFiles)
-        val illegalStrings = allStrings.filter { !StringNameGuidelinesHelper.isLegal(it.key) }
+        val illegalStrings = allStrings.filter { !StringNameGuidelinesHelper.isLegal(it.key, it.value) }
         if (illegalStrings.isEmpty()) {
             println("No illegal strings found.")
             return
