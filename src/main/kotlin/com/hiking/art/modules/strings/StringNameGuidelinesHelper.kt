@@ -27,12 +27,16 @@ object StringNameGuidelinesHelper {
         val fixableSuffix = run {
             legalKeywords.map { FIXABLE_SEPARATOR + it }.forEach {
                 if (name.endsWith(it)) return@run it
-                else if (name.endsWith("${it}_$FORMAT_SUFFIX")) return@run it + FORMAT_SUFFIX
+                else "${it}_$FORMAT_SUFFIX".let { nameWithFormatSuffix ->
+                    if (name.endsWith(nameWithFormatSuffix)) return@run nameWithFormatSuffix
+                }
             }
             if (name.count { it == SEPARATOR } == 1) {
                 legalKeywords.map { SEPARATOR + it }.forEach {
                     if (name.endsWith(it)) return@run it
-                    else if (name.endsWith("${it}_$FORMAT_SUFFIX")) return@run it + FORMAT_SUFFIX
+                    else "${it}_$FORMAT_SUFFIX".let { nameWithFormatSuffix ->
+                        if (name.endsWith(nameWithFormatSuffix)) return@run nameWithFormatSuffix
+                    }
                 }
             }
             null

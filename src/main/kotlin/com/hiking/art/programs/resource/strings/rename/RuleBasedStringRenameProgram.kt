@@ -43,7 +43,7 @@ class RuleBasedStringRenameProgram(
             println("- $name -> ${rule.toName}}")
         }
         println()
-        println("Rename ${rules.size} rule(s)?")
+        println("Rename with ${rules.size} rule(s)?")
         if (promptBooleanInput()) {
             StringRenameProgram(
                 projectRoot = projectRoot,
