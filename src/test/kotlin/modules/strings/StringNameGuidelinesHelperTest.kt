@@ -7,6 +7,69 @@ import org.junit.Test
 class StringNameGuidelinesHelperTest {
 
     @Test
+    fun isLegal_legal() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo.bar_bar.title",
+            values = listOf("foo")
+        )
+        Assert.assertEquals(true, result)
+    }
+
+    @Test
+    fun isLegal_noSeparator() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo_bar_bar_title",
+            values = listOf("foo")
+        )
+        Assert.assertEquals(false, result)
+    }
+
+    @Test
+    fun isLegal_oneSeparator() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo.bar_bar_title",
+            values = listOf("foo")
+        )
+        Assert.assertEquals(false, result)
+    }
+
+    @Test
+    fun isLegal_threeSeparator() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo.bar.bar.title",
+            values = listOf("foo")
+        )
+        Assert.assertEquals(false, result)
+    }
+
+    @Test
+    fun isLegal_illegalSuffix() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo.bar.bar.baz",
+            values = listOf("foo")
+        )
+        Assert.assertEquals(false, result)
+    }
+
+    @Test
+    fun isLegal_illegallyWithoutFormat() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo.bar_bar.title",
+            values = listOf("foo %s bar")
+        )
+        Assert.assertEquals(false, result)
+    }
+
+    @Test
+    fun isLegal_illegallyWithFormat() {
+        val result = StringNameGuidelinesHelper.isLegal(
+            name = "foo.bar_bar.title_format",
+            values = listOf("foo")
+        )
+        Assert.assertEquals(false, result)
+    }
+
+    @Test
     fun fixSeparator_fix() {
         val result = StringNameGuidelinesHelper.autoFix("foo.bar_bar_title")
         Assert.assertEquals("foo.bar_bar.title", result)
